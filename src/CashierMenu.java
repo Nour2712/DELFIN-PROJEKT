@@ -10,7 +10,28 @@ public class CashierMenu implements Menu{
         this.run = run;
     }
 
+    @Override
     public void run() {
-        run();
+
+    }
+
+    private void showMenu() {
+
+    }
+
+    // --------------------------------------------------
+    // Cashier options
+    // --------------------------------------------------
+
+    private void contingent() {
+
+    }
+
+    private void members() {
+
+    }
+
+    private void memberships() {
+
     }
 }
