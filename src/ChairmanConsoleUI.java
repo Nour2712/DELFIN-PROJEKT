@@ -1,8 +1,8 @@
 import java.time.LocalDate;
-public class ChairmanMenu implements Menu{
+public class ChairmanConsoleUI implements Menu{
     Delfinen delfinen;
 
-    public ChairmanMenu(Delfinen delfinen) {
+    public ChairmanConsoleUI(Delfinen delfinen) {
         this.delfinen = delfinen;
     }
 

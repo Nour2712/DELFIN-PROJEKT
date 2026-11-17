@@ -1,9 +1,9 @@
-public class MemberMenu implements Menu{
+public class MemberConsoleUI implements Menu{
     Menu run;
     Delfinen delfinen;
     int member;
 
-    public MemberMenu(Delfinen delfinen, Member member, Menu run){
+    public MemberConsoleUI(Delfinen delfinen, Member member, Menu run){
         this.delfinen = delfinen;
         this.member = member.getId();
         this.run = run;

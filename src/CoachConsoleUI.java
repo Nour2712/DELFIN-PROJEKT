@@ -1,9 +1,9 @@
-public class CoachMenu implements Menu{
+public class CoachConsoleUI implements Menu{
 
     private Delfinen delfinen;
     private int id;
 
-    public CoachMenu(Delfinen delfinen, int id) {
+    public CoachConsoleUI(Delfinen delfinen, int id) {
         this.delfinen = delfinen;
         this.id = id;
     }

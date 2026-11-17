@@ -1,10 +1,10 @@
-public class CashierMenu implements Menu{
+public class CashierConsoleUI implements Menu{
     Menu run;
     Delfinen delfinen;
     int cashierId;
 
 
-    public CashierMenu(Delfinen delfinen, int cashierId, Menu run) {
+    public CashierConsoleUI(Delfinen delfinen, int cashierId, Menu run) {
         this.delfinen = delfinen;
         this.cashierId = cashierId;
         this.run = run;
