@@ -17,6 +17,10 @@ public class Member {
         ageGroup = calculateAgeGroup();
     }
 
+    public int getId() {
+        return id;
+    }
+
     private AgeGroup calculateAgeGroup() {
         LocalDate today = LocalDate.now();
         int age = Period.between(birthdate, today).getYears();
@@ -25,4 +29,23 @@ public class Member {
         if (age < 60) return AgeGroup.SENIOR;
         return AgeGroup.SENIOR_PLUS;
     }
+
+    private int calculateMemberFee(AgeGroup ageGroup){
+        int memberFee = 0;
+        this.ageGroup = null;
+        if (!isActive) {
+            return memberFee = 500;
+        }
+        else if (calculateAgeGroup().equals(AgeGroup.JUNIOR)) {
+            return memberFee = 1000;
+        }
+        else if (calculateAgeGroup().equals(AgeGroup.SENIOR)) {
+            return memberFee = 1600;
+        }
+        else if (calculateAgeGroup().equals(AgeGroup.SENIOR_PLUS)) {
+            return memberFee = 1200;
+        }
+    return memberFee;
+    }
+
 }
