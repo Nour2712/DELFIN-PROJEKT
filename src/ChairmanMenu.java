@@ -1,16 +1,25 @@
 import java.time.LocalDate;
-public class ChairmanMenu {
-    Menu run;
+public class ChairmanMenu implements Menu{
     Delfinen delfinen;
-    int chairmanId;
 
-    public ChairmanMenu(Menu run, Delfinen delfinen, int chairmanId) {
-        this.run = run;
+    public ChairmanMenu(Delfinen delfinen) {
         this.delfinen = delfinen;
-        this.chairmanId = chairmanId;
     }
 
-    public Member registerMember(){
+    @Override
+    public void run() {
+
+    }
+
+    private void showMenu() {
+
+    }
+
+    // --------------------------------------------------
+    // Chairman options
+    // --------------------------------------------------
+
+    public Member registerMembers(){
         String name = "newMemberName"; //getters mangler -> kald dem til en IO.readln fra consoleUI
         int id = 0; //newMemberId;        //getters mangler -> kald dem til en IO.readln fra consoleUI
         LocalDate birthdate = LocalDate.now(); //newMemberBirthdate //getters mangler -> kald dem til en IO.readln fra consoleUI

@@ -9,8 +9,36 @@ public class MemberMenu implements Menu{
         this.run = run;
     }
 
+    @Override
     public void run() {
-        run();
+
     }
 
+    private void showMenu() {
+
+    }
+
+    // --------------------------------------------------
+    // Member options
+    // --------------------------------------------------
+
+    private void competitions() {
+
+    }
+
+    private void stats() {
+
+    }
+
+    private void coach() {
+
+    }
+
+    private void subscription() {
+
+    }
+
+    private void personalInfo() {
+
+    }
 }
