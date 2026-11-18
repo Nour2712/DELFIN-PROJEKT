@@ -11,12 +11,19 @@ public class ConsoleUI {
 
     public void run(){
         loginMenu();
+        loginAuthentication();
+        chooseUserConsoleUI();
     }
 
-    private void loginMenu(){
+    private void loginMenu() {
 
     }
 
+    private void loginAuthentication() {
 
+    }
 
+    private void chooseUserConsoleUI() {
+
+    }
 }
