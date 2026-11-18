@@ -3,10 +3,9 @@ public class MemberConsoleUI implements Menu{
     Delfinen delfinen;
     int member;
 
-    public MemberConsoleUI(Delfinen delfinen, Member member, Menu run){
+    public MemberConsoleUI(Delfinen delfinen, Member member){
         this.delfinen = delfinen;
         this.member = member.getId();
-        this.run = run;
     }
 
     @Override
