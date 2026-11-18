@@ -5,8 +5,9 @@ public class Member {
     private final String name;
     private final int id;
     private final LocalDate birthdate;
-    AgeGroup ageGroup;
-    boolean isActive;
+    private AgeGroup ageGroup;
+    private boolean isActive;
+    private double missingPayments;
 
     public Member(String name, int id, LocalDate birthdate, boolean isActive) {
         this.name = name;
@@ -15,6 +16,7 @@ public class Member {
         this.isActive = isActive;
 
         ageGroup = calculateAgeGroup();
+        this.missingPayments = 0;
     }
 
     public int getId() {
@@ -30,7 +32,7 @@ public class Member {
         return AgeGroup.SENIOR_PLUS;
     }
 
-    private int calculateMemberFee(AgeGroup ageGroup){
+    public int calculateMemberFee(){
         int memberFee = 0;
         this.ageGroup = null;
         if (!isActive) {
@@ -48,4 +50,21 @@ public class Member {
     return memberFee;
     }
 
+    public void addMonthlyFee() {
+        double yearlyFee = calculateMemberFee();
+        double monthlyFee = yearlyFee / 12;
+        missingPayments += monthlyFee;
+    }
+
+    public void payFee(double amount) {
+        missingPayments -= amount;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public double getMissingPayments() {
+        return missingPayments;
+    }
 }
