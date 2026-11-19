@@ -38,7 +38,7 @@ public class CompetitionHandler {
         return true;
     }
 
-    public boolean addNoneStudentSwimResult(String competitionName, Duration timeSec){
+    public boolean addNoneStudentSwimResult(String competitionName, Duration timeSec) {
         Competition competition = null;
         for (Competition comp : competitionList) {
             if (comp.getCompetitionName().equals(competitionName)) {
@@ -46,14 +46,13 @@ public class CompetitionHandler {
             }
         }
 
-        if (competition == null){
+        if (competition == null) {
             return false;
         }
 
         competition.addSwimResult(0, timeSec);
         return true;
-
-
+    }
 
     public ArrayList<SwimResult> getPlacementList(String competitionName) {
         Competition competition = null;
