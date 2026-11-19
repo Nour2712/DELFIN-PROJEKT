@@ -35,10 +35,12 @@ public class Delfinen {
         return competitionHandler.addNoneStudentSwimResult(competitionName, timeSec);
     }
 
-
-
     public ArrayList<SwimResult> getPlacementList(String competitionName) {
         return getPlacementList(competitionName);
+    }
+
+    public ArrayList<Competition> getCompetitionList() {
+        return competitionHandler.getCompetitionList();
     }
 
     // --------------------------------------------------

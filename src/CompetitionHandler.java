@@ -14,6 +14,7 @@ public class CompetitionHandler {
         competitionList.add(competition);
     }
 
+    // Hvis man vil tilføje en tid fra en person som er en member hos delfinen
     public boolean addStudentSwimResult(String competitionName, int memberID, Duration timeSec) {
         Competition competition = null;
 
@@ -38,6 +39,7 @@ public class CompetitionHandler {
         return true;
     }
 
+    // Hvis man vil tilføje en tid fra en person som ikke er en member hos delfinen
     public boolean addNoneStudentSwimResult(String competitionName, Duration timeSec) {
         Competition competition = null;
         for (Competition comp : competitionList) {
@@ -67,5 +69,9 @@ public class CompetitionHandler {
             return competition.getPlacementList();
         }
         return null;
+    }
+
+    public ArrayList<Competition> getCompetitionList() {
+        return competitionList;
     }
 }
