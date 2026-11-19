@@ -23,6 +23,7 @@ public class CompetitionHandler {
             }
         }
 
+
         // Konkurencen existerer
         if (competition == null) {
             return false;
@@ -36,6 +37,23 @@ public class CompetitionHandler {
         competition.addSwimResult(memberID, timeSec);
         return true;
     }
+
+    public boolean addNoneStudentSwimResult(String competitionName, Duration timeSec){
+        Competition competition = null;
+        for (Competition comp : competitionList) {
+            if (comp.getCompetitionName().equals(competitionName)) {
+                competition = comp;
+            }
+        }
+
+        if (competition == null){
+            return false;
+        }
+
+        competition.addSwimResult(0, timeSec);
+        return true;
+
+
 
     public ArrayList<SwimResult> getPlacementList(String competitionName) {
         Competition competition = null;

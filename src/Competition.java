@@ -21,6 +21,9 @@ public class Competition {
         sortPlacementList();
     }
 
+
+
+
     public void sortPlacementList() {
         Collections.sort(placementList);
     }
