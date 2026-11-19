@@ -2,14 +2,15 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public record SwimResult(
+public record SwimResult (
+        int memberID,
         Discipline discipline,
         LocalDate date,
-        Duration time) {
+        Duration time) implements Comparable<SwimResult> {
 
 
-    public SwimResult(Discipline discipline, Duration time, LocalDate date) {
-        this(discipline, date, time);
+    public SwimResult(int memberID, Discipline discipline, Duration time, LocalDate date) {
+        this(memberID, discipline, date, time);
     }
 
     public DateTimeFormatter resultFormat(){
@@ -27,4 +28,9 @@ public record SwimResult(
         return discipline + ": " + resultFormat() + " den " + date + comp;
     }
      */
+
+    @Override
+    public int compareTo(SwimResult other) {
+        return this.time.compareTo(other.time);
+    }
 }
