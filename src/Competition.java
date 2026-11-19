@@ -1,26 +1,23 @@
+import java.time.Duration;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 
 public class Competition {
-    private String name;
-    private Member[] members;
+    private String competitionName;
     private Discipline discipline;
     private LocalDate localDate;
-    private ArrayList<SwimResult> placementList;
+    private ArrayList<SwimResult> placementList = new ArrayList<>();
 
-    public Competition(String name, Member[] members, Discipline discipline,
-                       LocalDate localDate, ArrayList<SwimResult> placementList) {
-        this.name = name;
-        this.members = members;
+    public Competition(String competitionName, Discipline discipline, LocalDate localDate) {
+        this.competitionName = competitionName;
         this.discipline = discipline;
         this.localDate = localDate;
-        this.placementList = placementList;
-
     }
 
-    public void addSwimResult(SwimResult swimResult) {
-        placementList.add(swimResult);
+    public void addSwimResult(int memberID, Duration timeSec) {
+        SwimResult newSwimresult = new SwimResult(memberID, discipline, timeSec, localDate);
+        placementList.add(newSwimresult);
         sortPlacementList();
     }
 
@@ -28,5 +25,20 @@ public class Competition {
         Collections.sort(placementList);
     }
 
+    public ArrayList<SwimResult> getPlacementList() {
+        return placementList;
+    }
 
+    public String getCompetitionName() {
+        return competitionName;
+    }
+
+    public boolean competitorExists(int memberID) {
+        for (SwimResult result : placementList) {
+            if (result.memberID() == memberID) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
