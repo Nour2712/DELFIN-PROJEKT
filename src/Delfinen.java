@@ -36,7 +36,7 @@ public class Delfinen {
     }
 
     public ArrayList<SwimResult> getPlacementList(String competitionName) {
-        return getPlacementList(competitionName);
+        return competitionHandler.getPlacementList(competitionName);
     }
 
     public ArrayList<Competition> getCompetitionList() {
