@@ -1,16 +1,8 @@
 import java.time.Duration;
 import java.time.format.DateTimeFormatter;
 
-public record SwimResult (
-        int memberID,
-        Discipline discipline,
-        LocalDate date,
-        Duration time) implements Comparable<SwimResult> {
+public record SwimResult(Discipline discipline, Duration time, Member member) {
 
-
-    public SwimResult(int memberID, Discipline discipline, Duration time, LocalDate date) {
-        this(memberID, discipline, date, time);
-    }
 
     public DateTimeFormatter resultFormat(){
         long minutes = time.toMinutes();
@@ -24,11 +16,5 @@ public record SwimResult (
     public String toString() {
         String swimmer = member.getName();
         return swimmer + ", ved: " + discipline + ": " + resultFormat();
-    }
-     */
-
-    @Override
-    public int compareTo(SwimResult other) {
-        return this.time.compareTo(other.time);
     }
 }
