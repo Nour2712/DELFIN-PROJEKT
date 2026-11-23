@@ -59,11 +59,6 @@ public class Delfinen {
         return overduePayment.monthlyFee();
     }
 
-    // --------------------------------------------------
-    // Getters og setters
-    // --------------------------------------------------
-
-
     public ArrayList<Member> getMemberList() {
         return memberList;
     }

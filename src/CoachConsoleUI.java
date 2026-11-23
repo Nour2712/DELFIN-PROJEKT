@@ -91,9 +91,7 @@ public class CoachConsoleUI implements Menu {
                         }
                     }
                 }
-                case "0" -> {
-
-                }
+                default -> running = false;
             }
         }
     }
@@ -113,9 +111,6 @@ public class CoachConsoleUI implements Menu {
 
     }
 
-    // --------------------------------------------------
-    // Students
-    // --------------------------------------------------
 
     private void students() {
 
