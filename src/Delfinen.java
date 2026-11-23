@@ -16,10 +16,6 @@ public class Delfinen {
         return memberList.remove(member);
     }
 
-    // --------------------------------------------------
-    // Payments
-    // --------------------------------------------------
-
     public boolean payFee(int memberId, double amount) {
         return overduePayment.payFee(memberId, amount);
     }
@@ -31,11 +27,6 @@ public class Delfinen {
     public boolean monthlyPayment() {
         return overduePayment.monthlyFee();
     }
-
-    // --------------------------------------------------
-    // Getters og setters
-    // --------------------------------------------------
-
 
     public ArrayList<Member> getMemberList() {
         return memberList;

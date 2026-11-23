@@ -15,10 +15,6 @@ public class ChairmanConsoleUI implements Menu{
 
     }
 
-    // --------------------------------------------------
-    // Chairman options
-    // --------------------------------------------------
-
     public Member registerMembers(){
         String name = "newMemberName"; //getters mangler -> kald dem til en IO.readln fra consoleUI
         int id = 0; //newMemberId;        //getters mangler -> kald dem til en IO.readln fra consoleUI

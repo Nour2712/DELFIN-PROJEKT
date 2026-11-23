@@ -16,5 +16,5 @@ public record SwimResult(Discipline discipline, Duration time, Member member) {
     public String toString() {
         String swimmer = member.getName();
         return swimmer + ", ved: " + discipline + ": " + resultFormat();
-    } //ssss
+    }
 }
