@@ -17,9 +17,6 @@ public class MemberConsoleUI implements Menu{
 
     }
 
-    // --------------------------------------------------
-    // Member options
-    // --------------------------------------------------
 
     private void competitions() {
 

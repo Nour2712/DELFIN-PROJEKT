@@ -71,10 +71,7 @@ public class CashierConsoleUI implements Menu{
                 "0: Afslut \n";
     }
 
-    // --------------------------------------------------
     // Cashier options
-    // --------------------------------------------------
-
     private int contingent() {
         ArrayList<Member> memberList = delfinen.getMemberList();
         int yearlyContingent = 0;

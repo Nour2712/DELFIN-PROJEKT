@@ -111,9 +111,6 @@ public class CoachConsoleUI implements Menu {
 
     }
 
-    // --------------------------------------------------
-    // Students
-    // --------------------------------------------------
 
     private void students() {
 
