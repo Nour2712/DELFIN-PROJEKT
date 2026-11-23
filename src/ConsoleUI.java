@@ -15,7 +15,7 @@ public class ConsoleUI {
 
         Menu userConsoleUI = switch (option) {
             case "1" -> null;
-            case "2" -> null;
+            case "2" -> new CoachConsoleUI(delfinen, 1);
             case "3" -> new CashierConsoleUI(delfinen, 1);
             case "4" -> null;
             default -> null;

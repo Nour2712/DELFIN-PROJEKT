@@ -2,5 +2,9 @@ public enum Discipline {
     BUTTERFLY,
     CRAWL,
     BACK_CRAWL,
-    BREASTSTROKE
+    BREASTSTROKE;
+
+    public static Discipline parse(String input) {
+        return Discipline.valueOf(input.toUpperCase());
+    }
 }
