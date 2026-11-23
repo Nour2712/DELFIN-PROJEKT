@@ -29,6 +29,7 @@ public record SwimResult (
     }
      */
 
+
     @Override
     public int compareTo(SwimResult other) {
         return this.time.compareTo(other.time);
