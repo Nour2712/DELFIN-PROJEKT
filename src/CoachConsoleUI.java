@@ -91,9 +91,7 @@ public class CoachConsoleUI implements Menu {
                         }
                     }
                 }
-                case "0" -> {
-
-                }
+                default -> running = false;
             }
         }
     }
