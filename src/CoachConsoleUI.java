@@ -27,8 +27,28 @@ public class CoachConsoleUI implements Menu {
 
                 }
 
-                // Se elever
+                // elever
                 case "2" -> {
+                    boolean showStudentMenu = true;
+                    while (showStudentMenu) {
+                        IO.println("");
+                        String studentOption = IO.readln(showStudentMenu());
+
+                        switch (studentOption) {
+                            case "1" -> {
+                                findCoach().getStudents();
+                            }
+                            case "2" -> {
+                                addStudent();
+                            }
+                            case "3" -> {
+                                removeStudent();
+                            }
+                            default -> {
+
+                            }
+                        }
+                    }
 
                 }
 
@@ -99,7 +119,7 @@ public class CoachConsoleUI implements Menu {
     }
 
     private String showMenu() {
-        return  "1: Se leaderboards \n" +
+        return "1: Se leaderboards \n" +
                 "2: Se elever \n" +
                 "3: Konkurencer \n" +
                 "0: Afslut \n";
@@ -117,8 +137,46 @@ public class CoachConsoleUI implements Menu {
     // Students
     // --------------------------------------------------
 
-    private void students() {
+    private String showStudentMenu() {
+        return "1: Vis elever \n" +
+                "2: Tilføj elev \n" +
+                "3: Fjern elev \n" +
+                "0: Afslut \n";
+    }
 
+    private Coach findCoach() {
+        Coach coach = null;
+        for (Coach coach_ : delfinen.getCoachList()) {
+            if (coach_.getId() == coachID) {
+                coach = coach_;
+            }
+        }
+        return coach;
+    }
+
+    private void addStudent() {
+        Coach coach = findCoach();
+        String memberIDStr = IO.readln("Indtast member ID: ");
+        int memberID = Integer.parseInt(memberIDStr);
+        for (Member member : delfinen.getMemberList()) {
+            if (member.getId() == memberID) {
+                if (member instanceof CompetitiveMember) {
+                    coach.addStudent((CompetitiveMember) member);
+                } else IO.println("Medlemmet er ikke en konkurencesvømmer");
+            }
+        }
+    }
+
+    private void removeStudent() {
+        Coach coach = findCoach();
+        String memberIDStr = IO.readln("Indtast member ID: ");
+        int memberID = Integer.parseInt(memberIDStr);
+        for (Member member : coach.getStudents()) {
+            if (member.getId() == memberID) {
+                coach.addStudent((CompetitiveMember) member);
+                IO.println("Elev tilføjet");
+            }
+        }
     }
 
     // --------------------------------------------------
