@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class Delfinen {
     private ArrayList<Member> memberList = new ArrayList<Member>();
+    private ArrayList<Coach> coachList = new ArrayList<Coach>();
     private Leaderboard leaderBoard = new Leaderboard();
     private OverduePayment overduePayment = new OverduePayment(memberList);
     private CompetitionHandler competitionHandler = new CompetitionHandler();
@@ -60,6 +61,11 @@ public class Delfinen {
     }
 
     public ArrayList<Member> getMemberList() {
+
         return memberList;
+    }
+
+    public ArrayList<Coach> getCoachList() {
+        return coachList;
     }
 }

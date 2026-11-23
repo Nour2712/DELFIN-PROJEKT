@@ -9,4 +9,28 @@ public class Coach {
         this.name = name;
         this.id = id;
     }
+
+
+    public ArrayList<CompetitiveMember> getStudents() {
+        return students;
+    }
+
+    public boolean addStudent(CompetitiveMember member) {
+        for (CompetitiveMember mmbr : students ){
+            if (member.equals(mmbr)){
+                return false;
+            }
+        }
+        return students.add(member);
+
+    }
+
+
+    public boolean removeStudent(CompetitiveMember member){
+        return students.remove(member);
+    }
+
+    public int getId() {
+        return id;
+    }
 }
