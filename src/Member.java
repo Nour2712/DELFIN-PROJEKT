@@ -34,7 +34,7 @@ public class Member {
 
     public int calculateMemberFee(){
         int memberFee = 0;
-        this.ageGroup = null;
+
         if (!isActive) {
             return memberFee = 500;
         }
@@ -67,4 +67,25 @@ public class Member {
     public double getMissingPayments() {
         return missingPayments;
     }
+
+
+
+    @Override
+    public String toString() {
+        String status;
+        if (isActive) {
+            status = "Aktiv";
+        } else {
+            status = "Passiv";
+        }
+
+        return "Navn: " + name + "\n" +
+                "Medlemsnummer: " + id + "\n" +
+                "Fødselsdato: " + birthdate + "\n" +
+                "Aldersgruppe: " + ageGroup + "\n" +
+                "Status: " + status + "\n" +
+                "Restance: " + missingPayments + " kr.";
+    }
+
+
 }

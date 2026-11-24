@@ -44,4 +44,11 @@ public class Competition {
         }
         return false;
     }
+
+    @Override
+    public String toString() {
+        return "Konkurrence: " + competitionName + "\n" +
+                "Disciplin: " + discipline + "\n" +
+                "Dato: " + localDate + "\n";
+    }
 }
