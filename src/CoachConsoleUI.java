@@ -4,11 +4,16 @@ import java.time.LocalDate;
 public class CoachConsoleUI implements Menu {
 
     private Delfinen delfinen;
-    private int coachID;
+    private Coach coach;
 
     public CoachConsoleUI(Delfinen delfinen, int coachID) {
         this.delfinen = delfinen;
-        this.coachID = coachID;
+
+        for (Coach coach1 : delfinen.getCoachList()) {
+            if (coach1.getId() == coachID) {
+                this.coach = coach1;
+            }
+        }
     }
 
     @Override
@@ -27,7 +32,7 @@ public class CoachConsoleUI implements Menu {
 
                 }
 
-                // elever
+                // Elev menu
                 case "2" -> {
                     boolean showStudentMenu = true;
                     while (showStudentMenu) {
@@ -35,15 +40,21 @@ public class CoachConsoleUI implements Menu {
                         String studentOption = IO.readln(showStudentMenu());
 
                         switch (studentOption) {
+
+                            // Se elever
                             case "1" -> {
-                                findCoach().getStudents();
+                                coach.getStudents();
                             }
+
+                            // Tilføj ny elev
                             case "2" -> {
                                 addStudent();
                             }
                             case "3" -> {
                                 removeStudent();
                             }
+
+                            // Fjern elev
                             default -> {
 
                             }
@@ -139,18 +150,7 @@ public class CoachConsoleUI implements Menu {
                 "0: Afslut \n";
     }
 
-    private Coach findCoach() {
-        Coach coach = null;
-        for (Coach coach_ : delfinen.getCoachList()) {
-            if (coach_.getId() == coachID) {
-                coach = coach_;
-            }
-        }
-        return coach;
-    }
-
     private void addStudent() {
-        Coach coach = findCoach();
         String memberIDStr = IO.readln("Indtast member ID: ");
         int memberID = Integer.parseInt(memberIDStr);
         for (Member member : delfinen.getMemberList()) {
@@ -163,7 +163,6 @@ public class CoachConsoleUI implements Menu {
     }
 
     private void removeStudent() {
-        Coach coach = findCoach();
         String memberIDStr = IO.readln("Indtast member ID: ");
         int memberID = Integer.parseInt(memberIDStr);
         for (Member member : coach.getStudents()) {
