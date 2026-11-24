@@ -29,7 +29,26 @@ public class CoachConsoleUI implements Menu {
 
                 // Se leaderboards
                 case "1" -> {
+                    String leaderboardOption = IO.readln(showLeaderboardMenu());
+                    switch (leaderboardOption) {
+                        case "1" -> {
+                            String memberIdStr = IO.readln("Indtast member ID");
+                            int memberID = Integer.parseInt(memberIdStr);
 
+                            String durationStr = IO.readln("Indtast elevens resultat i sekunder");
+                            Duration duration = Duration.parse(durationStr);
+
+                            String disciplineStr = IO.readln("Hvilken disciplin?");
+                            Discipline discipline = Discipline.parse(disciplineStr);
+
+                            String ageGroupStr = IO.readln("Hvilken aldersgruppe?");
+                            AgeGroup ageGroup = AgeGroup.parse(ageGroupStr);
+
+                            SwimResult swimResult = new SwimResult(memberID, discipline, duration, LocalDate.now());
+
+                            delfinen.addSwimResult(ageGroup, discipline, swimResult);
+                        }
+                    }
                 }
 
                 // Elev menu
@@ -138,6 +157,12 @@ public class CoachConsoleUI implements Menu {
     // Leaderboard
     // --------------------------------------------------
 
+    private String showLeaderboardMenu() {
+        return "1: Vis leaderboard \n" +
+                "2: Tilføj ny tid \n" +
+                "0: Afslut \n";
+    }
+
     private void leaderboards() {
 
     }
@@ -212,7 +237,7 @@ public class CoachConsoleUI implements Menu {
         String memberIDStr = IO.readln("Indtast member ID: ");
         int memberID = Integer.parseInt(memberIDStr);
 
-        String durationStr = IO.readln("Indtast elevens resultat i skunder: ");
+        String durationStr = IO.readln("Indtast elevens resultat i sekunder: ");
         Duration duration = Duration.parse(durationStr);
 
         for (Member member : delfinen.getMemberList()) {
@@ -223,7 +248,7 @@ public class CoachConsoleUI implements Menu {
     }
 
     private void addNonStudentSwimResult(String competitionName) {
-        String durationStr = IO.readln("Indtast elevens resultat i skunder: ");
+        String durationStr = IO.readln("Indtast elevens resultat i sekunder: ");
         Duration duration = Duration.parse(durationStr);
         delfinen.addNoneStudentSwimResult(competitionName, duration);
     }

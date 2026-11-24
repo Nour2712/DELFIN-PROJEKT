@@ -5,9 +5,9 @@ import java.util.ArrayList;
 public class Delfinen {
     private ArrayList<Member> memberList = new ArrayList<Member>();
     private ArrayList<Coach> coachList = new ArrayList<Coach>();
-    private Leaderboard leaderBoard = new Leaderboard();
     private OverduePayment overduePayment = new OverduePayment(memberList);
     private CompetitionHandler competitionHandler = new CompetitionHandler();
+    private LeaderboardHandler leaderboardHandler = new LeaderboardHandler();
 
     public Delfinen() {
     }
@@ -18,6 +18,14 @@ public class Delfinen {
 
     public boolean removeMember(Member member) {
         return memberList.remove(member);
+    }
+
+    // --------------------------------------------------
+    // Competitions
+    // --------------------------------------------------
+
+    public void addSwimResult(AgeGroup ageGroup, Discipline discipline, SwimResult swimResult) {
+        leaderboardHandler.addSwimResult(ageGroup, discipline, swimResult);
     }
 
     // --------------------------------------------------
