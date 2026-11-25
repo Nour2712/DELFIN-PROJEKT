@@ -21,44 +21,21 @@ public class CashierConsoleUI implements Menu{
             String option = IO.readln(showMenu());
 
             switch (option) {
-                case "1" -> {
-                    IO.println("Årlige kontingent: " + contingent() + " \n");
-                }
 
-                case "2" -> {
-                    ArrayList<Member> missingPaymentMembers = overdueMembers();
-                    if (missingPaymentMembers.isEmpty()) {
-                        IO.println("Ingen medlemmer der er i restance \n");
-                    } else {
-                        for (Member member : missingPaymentMembers) {
-                            IO.println(member.getName() + ", ID: " + member.getId() +
-                                    ", Manglende betaling: " + member.getMissingPayments());
-                        }
-                    }
-                }
+                // Se samlede kontingent betalinger
+                case "1" -> IO.println("Årlige kontingent: " + contingent() + " \n");
 
-                case "3" -> {
-                    String memberIdStr = IO.readln("Indtast medlems ID \n");
-                    int memberID = Integer.parseInt(memberIdStr);
+                // Se medlemmer i restance
+                case "2" -> findOverdueMembers();
 
-                    String amountStr = IO.readln("Indtast beløb \n");
-                    double amount = Double.parseDouble(amountStr);
+                // Betal regning
+                case "3" -> payFee();
 
-                    if (payFee(memberID, amount)) {
-                        IO.println("Betaling gennemført \n");
-                    } else IO.println("Betaling mislykkedes \n");
+                case "4" -> IO.println(monthlyPayment());
 
-                }
-
-                case "4" -> {
-                    IO.println(monthlyPayment());
-                }
-
-                case "0" -> {
+                default -> {
                     return;
                 }
-
-                default -> IO.println("Jeg forstår ikke hvad du vil \n");
             }
         }
     }
@@ -81,12 +58,28 @@ public class CashierConsoleUI implements Menu{
         return yearlyContingent;
     }
 
-    private ArrayList<Member> overdueMembers() {
-        return delfinen.findMissingPaymentMembers();
+    private void findOverdueMembers() {
+        ArrayList<Member> missingPaymentMembers = delfinen.findMissingPaymentMembers();
+        if (missingPaymentMembers.isEmpty()) {
+            IO.println("Ingen medlemmer der er i restance \n");
+        } else {
+            for (Member member : missingPaymentMembers) {
+                IO.println(member.getName() + ", ID: " + member.getId() +
+                        ", Manglende betaling: " + member.getMissingPayments());
+            }
+        }
     }
 
-    private boolean payFee(int memberId, double amount) {
-        return delfinen.payFee(memberId, amount);
+    private void payFee() {
+        String memberIdStr = IO.readln("Indtast medlems ID \n");
+        int memberID = Integer.parseInt(memberIdStr);
+
+        String amountStr = IO.readln("Indtast beløb \n");
+        double amount = Double.parseDouble(amountStr);
+
+        if (delfinen.payFee(memberID, amount)) {
+            IO.println("Betaling gennemført \n");
+        } else IO.println("Betaling mislykkedes \n");
     }
 
     private String monthlyPayment() {

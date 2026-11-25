@@ -40,8 +40,18 @@ public class LeaderboardHandler {
                     leaderboard.addSwimResult(swimResult);
                 }
             }
-
         }
+    }
 
+    public Leaderboard findLeaderboard(Discipline discipline, AgeGroup ageGroup) {
+        Leaderboard leaderboard = null;
+        for (Leaderboard lb : leaderboardList) {
+            if (lb.getDiscipline().equals(discipline)) {
+                if (lb.getAgeGroup().equals(ageGroup)) {
+                    leaderboard = lb;
+                }
+            }
+        }
+        return leaderboard;
     }
 }
