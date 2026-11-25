@@ -31,15 +31,21 @@ public class CoachConsoleUI implements Menu {
 
                 // Se leaderboards
                 case "1" -> {
-                    String leaderboardOption = IO.readln(showLeaderboardMenu());
-                    switch (leaderboardOption) {
+                    boolean showLeaderboardMenu = true;
+                    while (showLeaderboardMenu) {
+                        String leaderboardOption = IO.readln(showLeaderboardMenu());
+                        switch (leaderboardOption) {
 
-                        // Se leaderboard
-                        case "1" -> findLeaderboard();
+                            // Se leaderboard
+                            case "1" -> findLeaderboard();
 
-                        // Tilføj ny tid til leaderboard
-                        case "2" -> addSwimResult();
+                            // Tilføj ny tid til leaderboard
+                            case "2" -> addSwimResult();
 
+                            case "0" -> showLeaderboardMenu = false;
+
+                            default -> {}
+                        }
                     }
                 }
 
@@ -61,10 +67,12 @@ public class CoachConsoleUI implements Menu {
                             // Fjern elev
                             case "3" -> removeStudent();
 
-                            default -> showStudentMenu = false;
+                            case "0" -> showStudentMenu = false;
+
+                            default -> {}
+
                         }
                     }
-
                 }
 
                 // Konkurrencer
@@ -100,7 +108,9 @@ public class CoachConsoleUI implements Menu {
                                             // Tilføj en tid fra et ikke-medlem af Delfinen
                                             case "3" -> addNonStudentSwimResult(competition.getCompetitionName());
 
-                                            default -> showSpecificCompetitionMenu = false;
+                                            case "0" -> showSpecificCompetitionMenu = false;
+
+                                            default -> {}
 
                                         }
                                     }
@@ -110,11 +120,15 @@ public class CoachConsoleUI implements Menu {
                             // Opret ny konkurence
                             case "3" -> createCompetition();
 
-                            default -> showCompetitionMenu = false;
+                            case "0" -> showCompetitionMenu = false;
+
+                            default -> {}
                         }
                     }
                 }
-                default -> running = false;
+                case "0" -> running = false;
+
+                default -> {}
             }
         }
     }
@@ -133,7 +147,7 @@ public class CoachConsoleUI implements Menu {
     private String showLeaderboardMenu() {
         return "1: Vis leaderboard \n" +
                 "2: Tilføj ny tid \n" +
-                "0: Afslut \n";
+                "0: Gå tilbage \n";
     }
 
     private void findLeaderboard() {
@@ -172,7 +186,7 @@ public class CoachConsoleUI implements Menu {
         return "1: Vis elever \n" +
                 "2: Tilføj elev \n" +
                 "3: Fjern elev \n" +
-                "0: Afslut \n";
+                "0: Gå tilbage \n";
     }
 
     private void showStudents() {
@@ -212,12 +226,12 @@ public class CoachConsoleUI implements Menu {
         return  "1: Vis konkurencer \n" +
                 "2: Vælg konkurence \n" +
                 "3: Opret konkurence \n" +
-                "0: Afslut \n";
+                "0: Gå tilbage \n";
     }
 
     private void showCompetitions() {
         for (Competition competition : delfinen.getCompetitionList()) {
-            IO.println(competition);
+            IO.println(competition.getCompetitionName());
         }
     }
 
@@ -236,7 +250,7 @@ public class CoachConsoleUI implements Menu {
         return  "1: Vis leaderboard fra konkurencen \n" +
                 "2: tilføj elev resultat til konkurencen \n" +
                 "3: tilføj ikke-elev resultat til konkurencen \n" +
-                "0: Afslut \n";
+                "0: Gå tilbage \n";
     }
 
     private void addStudentSwimResult(String competitionName) {

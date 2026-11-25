@@ -21,11 +21,15 @@ public class Delfinen {
     }
 
     // --------------------------------------------------
-    // Competitions
+    // Leaderboards
     // --------------------------------------------------
 
     public void addSwimResult(AgeGroup ageGroup, Discipline discipline, SwimResult swimResult) {
         leaderboardHandler.addSwimResult(ageGroup, discipline, swimResult);
+    }
+
+    public Leaderboard findLeaderboard(Discipline discipline, AgeGroup ageGroup) {
+        return leaderboardHandler.findLeaderboard(discipline, ageGroup);
     }
 
     // --------------------------------------------------
