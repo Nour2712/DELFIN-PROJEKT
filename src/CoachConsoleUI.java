@@ -1,5 +1,7 @@
+import java.time.DateTimeException;
 import java.time.Duration;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 
 public class CoachConsoleUI implements Menu {
 
@@ -31,23 +33,13 @@ public class CoachConsoleUI implements Menu {
                 case "1" -> {
                     String leaderboardOption = IO.readln(showLeaderboardMenu());
                     switch (leaderboardOption) {
-                        case "1" -> {
-                            String memberIdStr = IO.readln("Indtast member ID");
-                            int memberID = Integer.parseInt(memberIdStr);
 
-                            String durationStr = IO.readln("Indtast elevens resultat i sekunder");
-                            Duration duration = Duration.parse(durationStr);
+                        // Se leaderboard
+                        case "1" -> findLeaderboard();
 
-                            String disciplineStr = IO.readln("Hvilken disciplin?");
-                            Discipline discipline = Discipline.parse(disciplineStr);
+                        // Tilføj ny tid til leaderboard
+                        case "2" -> addSwimResult();
 
-                            String ageGroupStr = IO.readln("Hvilken aldersgruppe?");
-                            AgeGroup ageGroup = AgeGroup.parse(ageGroupStr);
-
-                            SwimResult swimResult = new SwimResult(memberID, discipline, duration, LocalDate.now());
-
-                            delfinen.addSwimResult(ageGroup, discipline, swimResult);
-                        }
                     }
                 }
 
@@ -61,22 +53,15 @@ public class CoachConsoleUI implements Menu {
                         switch (studentOption) {
 
                             // Se elever
-                            case "1" -> {
-                                coach.getStudents();
-                            }
+                            case "1" -> showStudents();
 
                             // Tilføj ny elev
-                            case "2" -> {
-                                addStudent();
-                            }
-                            case "3" -> {
-                                removeStudent();
-                            }
+                            case "2" -> addStudent();
 
                             // Fjern elev
-                            default -> {
+                            case "3" -> removeStudent();
 
-                            }
+                            default -> showStudentMenu = false;
                         }
                     }
 
@@ -92,9 +77,7 @@ public class CoachConsoleUI implements Menu {
                         switch (competitionOption) {
 
                             // Vis alle konkurencer
-                            case "1" -> {
-                                showCompetitions();
-                            }
+                            case "1" -> showCompetitions();
 
                             // Vælg en specifik konkurence
                             case "2" -> {
@@ -109,19 +92,13 @@ public class CoachConsoleUI implements Menu {
                                         switch (specificCompetitionMenu) {
 
                                             // Få ranglisten fra konkurencen
-                                            case "1" -> {
-                                                delfinen.getPlacementList(competition.getCompetitionName());
-                                            }
+                                            case "1" -> delfinen.getPlacementList(competition.getCompetitionName());
 
                                             // Tilføj en tid fra et medlem af Delfinen
-                                            case "2" -> {
-                                                addStudentSwimResult(competition.getCompetitionName());
-                                            }
+                                            case "2" -> addStudentSwimResult(competition.getCompetitionName());
 
                                             // Tilføj en tid fra et ikke-medlem af Delfinen
-                                            case "3" -> {
-                                                addNonStudentSwimResult(competition.getCompetitionName());
-                                            }
+                                            case "3" -> addNonStudentSwimResult(competition.getCompetitionName());
 
                                             default -> showSpecificCompetitionMenu = false;
 
@@ -131,13 +108,9 @@ public class CoachConsoleUI implements Menu {
                             }
 
                             // Opret ny konkurence
-                            case "3" -> {
-                                createCompetition();
-                            }
+                            case "3" -> createCompetition();
 
-                            default -> {
-                                showCompetitionMenu = false;
-                            }
+                            default -> showCompetitionMenu = false;
                         }
                     }
                 }
@@ -163,16 +136,49 @@ public class CoachConsoleUI implements Menu {
                 "0: Afslut \n";
     }
 
-    private void leaderboards() {
+    private void findLeaderboard() {
+        String disciplineStr = IO.readln("Hvilken disciplin?");
+        Discipline discipline = Discipline.parse(disciplineStr);
 
+        String ageGroupStr = IO.readln("Hvilken aldersgruppe?");
+        AgeGroup ageGroup = AgeGroup.parse(ageGroupStr);
+
+        IO.println(delfinen.findLeaderboard(discipline, ageGroup));
     }
 
+    private void addSwimResult() {
+        String memberIdStr = IO.readln("Indtast member ID");
+        int memberID = Integer.parseInt(memberIdStr);
+
+        String durationStr = IO.readln("Indtast elevens resultat i sekunder");
+        Duration duration = Duration.parse(durationStr);
+
+        String disciplineStr = IO.readln("Hvilken disciplin?");
+        Discipline discipline = Discipline.parse(disciplineStr);
+
+        String ageGroupStr = IO.readln("Hvilken aldersgruppe?");
+        AgeGroup ageGroup = AgeGroup.parse(ageGroupStr);
+
+        SwimResult swimResult = new SwimResult(memberID, discipline, duration, LocalDate.now());
+
+        delfinen.addSwimResult(ageGroup, discipline, swimResult);
+    }
+
+    // --------------------------------------------------
+    // Students
+    // --------------------------------------------------
 
     private String showStudentMenu() {
         return "1: Vis elever \n" +
                 "2: Tilføj elev \n" +
                 "3: Fjern elev \n" +
                 "0: Afslut \n";
+    }
+
+    private void showStudents() {
+        for (CompetitiveMember cm : coach.getStudents()) {
+            IO.println(cm.getName() + ": " + cm.getId());
+        }
     }
 
     private void addStudent() {
@@ -259,9 +265,22 @@ public class CoachConsoleUI implements Menu {
         String disciplineStr = IO.readln("Hvilken disciplin: ");
         Discipline discipline = Discipline.parse(disciplineStr);
 
-        String localDateStr = IO.readln("hvilken dato finder konkurencen sted. \n" +
-                "Skriv i dette format 'XXXX-XX-XX' (årstal, måned, dag): ");
-        LocalDate localDate = LocalDate.parse(localDateStr);
+
+        // ------
+        boolean invalidDateFormat = true;
+        LocalDate localDate = null;
+        while (invalidDateFormat) {
+            String localDateStr = IO.readln("hvilken dato finder konkurencen sted. \n" +
+                    "Skriv i dette format 'XXXX-XX-XX' (årstal, måned, dag): ");
+            try {
+                localDate = LocalDate.parse(localDateStr);
+
+                invalidDateFormat = false;
+            } catch (DateTimeParseException dtpe) {
+                IO.println("forkert dato format. Prøv igen");
+            }
+        }
+        // ------
 
         delfinen.createCompetition(competitionName, discipline, localDate);
     }
