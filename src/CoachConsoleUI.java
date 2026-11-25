@@ -276,25 +276,25 @@ public class CoachConsoleUI implements Menu {
     private void createCompetition() {
         String competitionName = IO.readln("Hvad skal konkurencen hedde: ");
 
-        String disciplineStr = IO.readln("Hvilken disciplin: ");
-        Discipline discipline = Discipline.parse(disciplineStr);
-
-
-        // ------
-        boolean invalidDateFormat = true;
+        boolean invalidInput = true;
+        Discipline discipline = null;
         LocalDate localDate = null;
-        while (invalidDateFormat) {
-            String localDateStr = IO.readln("hvilken dato finder konkurencen sted. \n" +
+
+        while (invalidInput) {
+            String disciplineStr = IO.readln("Hvilken disciplin: ");
+            String localDateStr = IO.readln("Hvilken dato finder konkurrencen sted? \n" +
                     "Skriv i dette format 'XXXX-XX-XX' (årstal, måned, dag): ");
             try {
+                discipline = Discipline.parse(disciplineStr);
                 localDate = LocalDate.parse(localDateStr);
-
-                invalidDateFormat = false;
+                invalidInput = false; //Hvif begge går godt så bliver det false så løkken stopper
+            } catch (IllegalArgumentException iae) {
+                IO.println("Den disciplin findes ikke. Prøv igen");
             } catch (DateTimeParseException dtpe) {
-                IO.println("forkert dato format. Prøv igen");
+                IO.println("Forkert datoformat. Prøv igen");
             }
         }
-        // ------
+
 
         delfinen.createCompetition(competitionName, discipline, localDate);
     }
