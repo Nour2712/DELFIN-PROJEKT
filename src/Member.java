@@ -68,7 +68,9 @@ public class Member {
         return missingPayments;
     }
 
-
+    public AgeGroup getAgeGroup() {
+        return calculateAgeGroup();
+    }
 
     @Override
     public String toString() {

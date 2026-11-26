@@ -6,8 +6,8 @@ public class Delfinen {
     private ArrayList<Member> memberList = new ArrayList<Member>();
     private ArrayList<Coach> coachList = new ArrayList<Coach>();
     private OverduePayment overduePayment = new OverduePayment(memberList);
-    private CompetitionHandler competitionHandler = new CompetitionHandler();
     private LeaderboardHandler leaderboardHandler = new LeaderboardHandler();
+    private CompetitionHandler competitionHandler = new CompetitionHandler(leaderboardHandler);
 
     public Delfinen() {
     }
@@ -24,7 +24,7 @@ public class Delfinen {
     // Leaderboards
     // --------------------------------------------------
 
-    public void addSwimResult(AgeGroup ageGroup, Discipline discipline, SwimResult swimResult) {
+    public void addSwimResultTraining(AgeGroup ageGroup, Discipline discipline, SwimResult swimResult) {
         leaderboardHandler.addSwimResult(ageGroup, discipline, swimResult);
     }
 
@@ -36,16 +36,13 @@ public class Delfinen {
     // Competitions
     // --------------------------------------------------
 
-    public void createCompetition(String competitionName, Discipline discipline, LocalDate localDate) {
-        competitionHandler.createCompetition(competitionName, discipline, localDate);
+    public void createCompetition(String competitionName, Discipline discipline, AgeGroup ageGroup,
+                                  LocalDate localDate, ArrayList<CompetitiveMember> competitorList) {
+        competitionHandler.createCompetition(competitionName, discipline, ageGroup, localDate, competitorList);
     }
 
-    public boolean addStudentSwimResult(String competitionName, int memberID, Duration timeSec) {
-        return competitionHandler.addStudentSwimResult(competitionName, memberID, timeSec);
-    }
-
-    public boolean addNoneStudentSwimResult (String competitionName, Duration timeSec){
-        return competitionHandler.addNoneStudentSwimResult(competitionName, timeSec);
+    public boolean addSwimResultCompetition(String competitionName, int memberID, Duration timeSec) {
+        return competitionHandler.addSwimResult(competitionName, memberID, timeSec);
     }
 
     public ArrayList<SwimResult> getPlacementList(String competitionName) {
