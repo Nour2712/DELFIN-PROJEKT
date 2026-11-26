@@ -20,7 +20,6 @@ public record SwimResult(int memberID, Discipline discipline, Duration time, Loc
 
     @Override
     public String toString() {
-        String swimmer = (memberID == 0) ? "Ikke-medlem" : "Medlem ID " + memberID;
-        return swimmer + ", " + discipline + ": " + resultFormat() + " (" + date + ")";
+        return memberID + ", " + discipline + ": " + resultFormat() + " (" + date + ")";
     }
 }

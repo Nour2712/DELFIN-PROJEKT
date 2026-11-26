@@ -4,44 +4,22 @@ import java.util.ArrayList;
 
 public class CompetitionHandler {
     private ArrayList<Competition> competitionList = new ArrayList<>();
+    private LeaderboardHandler leaderboardHandler;
 
-    public CompetitionHandler() {
-
+    public CompetitionHandler(LeaderboardHandler leaderboardHandler) {
+        this.leaderboardHandler = leaderboardHandler;
     }
 
-    public void createCompetition(String competitionName, Discipline discipline, LocalDate localDate) {
-        Competition competition = new Competition(competitionName, discipline, localDate);
+    public void createCompetition(String competitionName, Discipline discipline, AgeGroup ageGroup,
+                                  LocalDate localDate, ArrayList<CompetitiveMember> competitorList) {
+        Competition competition = new Competition(competitionName, discipline, ageGroup,
+                localDate, competitorList);
         competitionList.add(competition);
     }
 
-    // Hvis man vil tilføje en tid fra en person som er en member hos delfinen
-    public boolean addStudentSwimResult(String competitionName, int memberID, Duration timeSec) {
+    public boolean addSwimResult(String competitionName, int memberID, Duration timeSec) {
         Competition competition = null;
 
-        for (Competition comp : competitionList) {
-            if (comp.getCompetitionName().equals(competitionName)) {
-                competition = comp;
-            }
-        }
-
-
-        // Konkurencen existerer
-        if (competition == null) {
-            return false;
-        }
-
-        // Competitor er ikke tilføjet flere gange
-        if (competition.competitorExists(memberID)) {
-            return false;
-        }
-
-        competition.addSwimResult(memberID, timeSec);
-        return true;
-    }
-
-    // Hvis man vil tilføje en tid fra en person som ikke er en member hos delfinen
-    public boolean addNoneStudentSwimResult(String competitionName, Duration timeSec) {
-        Competition competition = null;
         for (Competition comp : competitionList) {
             if (comp.getCompetitionName().equals(competitionName)) {
                 competition = comp;
@@ -52,7 +30,13 @@ public class CompetitionHandler {
             return false;
         }
 
-        competition.addSwimResult(0, timeSec);
+        // null = medlemmet deltager ikke, eller nye tid er ikke bedre
+        SwimResult result = competition.addSwimResult(memberID, timeSec);
+        if (result == null) {
+            return false;
+        }
+
+        leaderboardHandler.addSwimResult(competition.getAgeGroup(), result.discipline(), result);
         return true;
     }
 
