@@ -2,6 +2,7 @@ import java.time.DateTimeException;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 
 public class CoachConsoleUI implements Menu {
 
@@ -40,7 +41,7 @@ public class CoachConsoleUI implements Menu {
                             case "1" -> findLeaderboard();
 
                             // Tilføj ny tid til leaderboard
-                            case "2" -> addSwimResult();
+                            case "2" -> addSwimResultTraining();
 
                             case "0" -> showLeaderboardMenu = false;
 
@@ -95,18 +96,19 @@ public class CoachConsoleUI implements Menu {
                                     boolean showSpecificCompetitionMenu = true;
                                     while (showSpecificCompetitionMenu) {
                                         IO.println("");
-                                        String specificCompetitionMenu = IO.readln(showSpecificCompetitionMenu());
+                                        String specificCompetitionOption = IO.readln(showSpecificCompetitionMenu());
 
-                                        switch (specificCompetitionMenu) {
+                                        switch (specificCompetitionOption) {
 
                                             // Få ranglisten fra konkurencen
-                                            case "1" -> delfinen.getPlacementList(competition.getCompetitionName());
+                                            case "1" -> {
+                                                for (SwimResult result : delfinen.getPlacementList(competition.getCompetitionName())) {
+                                                    IO.println(result);
+                                                }
+                                            }
 
                                             // Tilføj en tid fra et medlem af Delfinen
-                                            case "2" -> addStudentSwimResult(competition.getCompetitionName());
-
-                                            // Tilføj en tid fra et ikke-medlem af Delfinen
-                                            case "3" -> addNonStudentSwimResult(competition.getCompetitionName());
+                                            case "2" -> addSwimResultCompetition(competition.getCompetitionName());
 
                                             case "0" -> showSpecificCompetitionMenu = false;
 
@@ -160,7 +162,7 @@ public class CoachConsoleUI implements Menu {
         IO.println(delfinen.findLeaderboard(discipline, ageGroup));
     }
 
-    private void addSwimResult() {
+    private void addSwimResultTraining() {
         String memberIdStr = IO.readln("Indtast member ID");
         int memberID = Integer.parseInt(memberIdStr);
 
@@ -170,12 +172,19 @@ public class CoachConsoleUI implements Menu {
         String disciplineStr = IO.readln("Hvilken disciplin?");
         Discipline discipline = Discipline.parse(disciplineStr);
 
-        String ageGroupStr = IO.readln("Hvilken aldersgruppe?");
-        AgeGroup ageGroup = AgeGroup.parse(ageGroupStr);
+        Member member = null;
+        for (Member m : delfinen.getMemberList()) {
+            if (m.getId() == memberID) {
+                member = m;
+            }
+        }
+        if (member == null) {
+            IO.println("Medlemmet findes ikke");
+            return;
+        }
 
         SwimResult swimResult = new SwimResult(memberID, discipline, duration, LocalDate.now());
-
-        delfinen.addSwimResult(ageGroup, discipline, swimResult);
+        delfinen.addSwimResultTraining(member.getAgeGroup(), discipline, swimResult);
     }
 
     // --------------------------------------------------
@@ -212,7 +221,7 @@ public class CoachConsoleUI implements Menu {
         int memberID = Integer.parseInt(memberIDStr);
         for (Member member : coach.getStudents()) {
             if (member.getId() == memberID) {
-                coach.addStudent((CompetitiveMember) member);
+                coach.removeStudent((CompetitiveMember) member);
                 IO.println("Elev tilføjet");
             }
         }
@@ -248,29 +257,22 @@ public class CoachConsoleUI implements Menu {
 
     private String showSpecificCompetitionMenu() {
         return  "1: Vis leaderboard fra konkurencen \n" +
-                "2: tilføj elev resultat til konkurencen \n" +
-                "3: tilføj ikke-elev resultat til konkurencen \n" +
+                "2: tilføj et resultat til konkurencen \n" +
                 "0: Gå tilbage \n";
     }
 
-    private void addStudentSwimResult(String competitionName) {
+    private void addSwimResultCompetition(String competitionName) {
         String memberIDStr = IO.readln("Indtast member ID: ");
         int memberID = Integer.parseInt(memberIDStr);
 
         String durationStr = IO.readln("Indtast elevens resultat i sekunder: ");
         Duration duration = Duration.parse(durationStr);
 
-        for (Member member : delfinen.getMemberList()) {
-            if (member.getId() == memberID) {
-                delfinen.addStudentSwimResult(competitionName, memberID, duration);
-            }
+        if (delfinen.addSwimResultCompetition(competitionName, memberID, duration)) {
+            IO.println("Tiden er registreret");
+        } else {
+            IO.println("Tiden blev ikke tilføjet (medlemmet deltager ikke, eller nye tid er ikke bedre)");
         }
-    }
-
-    private void addNonStudentSwimResult(String competitionName) {
-        String durationStr = IO.readln("Indtast elevens resultat i sekunder: ");
-        Duration duration = Duration.parse(durationStr);
-        delfinen.addNoneStudentSwimResult(competitionName, duration);
     }
 
     private void createCompetition() {
@@ -278,25 +280,34 @@ public class CoachConsoleUI implements Menu {
 
         boolean invalidInput = true;
         Discipline discipline = null;
+        AgeGroup ageGroup = null;
         LocalDate localDate = null;
 
         while (invalidInput) {
             String disciplineStr = IO.readln("Hvilken disciplin: ");
+            String ageGroupStr = IO.readln("Hvilken aldersgruppe: ");
             String localDateStr = IO.readln("Hvilken dato finder konkurrencen sted? \n" +
                     "Skriv i dette format 'XXXX-XX-XX' (årstal, måned, dag): ");
             try {
                 discipline = Discipline.parse(disciplineStr);
+                ageGroup = AgeGroup.parse(ageGroupStr);
                 localDate = LocalDate.parse(localDateStr);
-                invalidInput = false; //Hvif begge går godt så bliver det false så løkken stopper
+                invalidInput = false;
             } catch (IllegalArgumentException iae) {
-                IO.println("Den disciplin findes ikke. Prøv igen");
+                IO.println("Disciplinen eller aldersgruppen findes ikke. Prøv igen");
             } catch (DateTimeParseException dtpe) {
                 IO.println("Forkert datoformat. Prøv igen");
             }
         }
 
+        ArrayList<CompetitiveMember> competitors = new ArrayList<>();
+        for (CompetitiveMember cm : coach.getStudents()) {
+            if (cm.getAgeGroup() == ageGroup) {
+                competitors.add(cm);
+            }
+        }
 
-        delfinen.createCompetition(competitionName, discipline, localDate);
+        delfinen.createCompetition(competitionName, discipline, ageGroup, localDate, competitors);
     }
 
     // --------------------------------------------------

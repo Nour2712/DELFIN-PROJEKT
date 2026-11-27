@@ -74,6 +74,8 @@ public class Member {
 
     public boolean getIsActive(){
         return isActive;
+    public AgeGroup getAgeGroup() {
+        return calculateAgeGroup();
     }
 
     @Override

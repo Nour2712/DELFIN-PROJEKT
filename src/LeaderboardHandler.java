@@ -33,25 +33,28 @@ public class LeaderboardHandler {
     public LeaderboardHandler() {
     }
 
-    public void addSwimResult(AgeGroup ageGroup, Discipline discipline, SwimResult swimResult) {
-        for (Leaderboard leaderboard : leaderboardList) {
-            if (leaderboard.getAgeGroup().equals(ageGroup)) {
-                if (leaderboard.getDiscipline().equals(discipline)) {
-                    leaderboard.addSwimResult(swimResult);
-                }
-            }
+    private AgeGroup ageGroupCategory(AgeGroup ageGroup) {
+        if (ageGroup == AgeGroup.SENIOR_PLUS) {
+            return AgeGroup.SENIOR;
         }
+        return ageGroup;
+    }
+
+    public boolean addSwimResult(AgeGroup ageGroup, Discipline discipline, SwimResult swimResult) {
+        Leaderboard leaderboard = findLeaderboard(discipline, ageGroup);
+        if (leaderboard == null) {
+            return false;
+        }
+        return leaderboard.addSwimResult(swimResult);
     }
 
     public Leaderboard findLeaderboard(Discipline discipline, AgeGroup ageGroup) {
-        Leaderboard leaderboard = null;
+        AgeGroup group = ageGroupCategory(ageGroup);
         for (Leaderboard lb : leaderboardList) {
-            if (lb.getDiscipline().equals(discipline)) {
-                if (lb.getAgeGroup().equals(ageGroup)) {
-                    leaderboard = lb;
-                }
+            if (lb.getDiscipline().equals(discipline) && lb.getAgeGroup().equals(group)) {
+                return lb;
             }
         }
-        return leaderboard;
+        return null;
     }
 }

@@ -17,22 +17,28 @@ public class Leaderboard {
         return leaderboard;
     }
 
-    public void addSwimResult(SwimResult swimResult) {
+    public boolean addSwimResult(SwimResult newResult) {
+        SwimResult previousResult = null;
+
         for (SwimResult result : leaderboard) {
-            if (result.memberID() == swimResult.memberID()) {
-                if (result.time().getSeconds() > swimResult.time().getSeconds()) {
-                    removeSwimResult(result);
-                    leaderboard.add(swimResult);
-                }
+            if (result.memberID() == newResult.memberID()) {
+                previousResult = result;
             }
         }
+        if (previousResult == null) {
+            leaderboard.add(newResult);
+            sortLeaderboard();
+            return true;
+        }
 
-        sortLeaderboard();
-    }
+        if (newResult.time().compareTo(previousResult.time()) < 0) {
+            leaderboard.remove(previousResult);
+            leaderboard.add(newResult);
+            sortLeaderboard();
+            return true;
+        }
 
-    public void removeSwimResult(SwimResult swimResult) {
-        leaderboard.remove(swimResult);
-
+        return false;
     }
 
     public void sortLeaderboard() {
