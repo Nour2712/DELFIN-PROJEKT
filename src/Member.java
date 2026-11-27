@@ -68,6 +68,12 @@ public class Member {
         return missingPayments;
     }
 
+    public LocalDate getBirthdate() {
+        return birthdate;
+    }
+
+    public boolean getIsActive(){
+        return isActive;
     public AgeGroup getAgeGroup() {
         return calculateAgeGroup();
     }
