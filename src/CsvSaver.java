@@ -6,8 +6,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class CsvSaver {
-    private static final String delimiter = ",";
-    private static final DateTimeFormatter dateFormat = DateTimeFormatter.ISO_LOCAL_DATE;
+    private final String delimiter = ",";
+    private final DateTimeFormatter dateFormat = DateTimeFormatter.ISO_LOCAL_DATE;
 
     private final Path folder;
 
