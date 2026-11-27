@@ -1,6 +1,5 @@
 import java.time.Duration;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 public record SwimResult(int memberID, Discipline discipline, Duration time, LocalDate date)
         implements Comparable<SwimResult> {
