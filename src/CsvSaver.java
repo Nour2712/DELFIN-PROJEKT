@@ -40,12 +40,29 @@ public class CsvSaver {
         }
     }
 
+
     //Coach csv-saver
     public String toCsvCoach(Coach coach) {
+        String competitiveStudentId = "";
+        if (coach.getStudents().isEmpty()) {
+            competitiveStudentId = "empty";
+        }
+        else {
+            for (CompetitiveMember competitiveMember : coach.getStudents()) {
+                if (competitiveMember.equals(coach.getStudents().getFirst())) {
+                    competitiveStudentId += competitiveMember.getId();
+                } else {
+                    competitiveStudentId += ";";
+                    competitiveStudentId += competitiveMember.getId();
+                }
+            }
+        }
         return coach.getName() + delimiter +
                 coach.getId() + delimiter +
-                coach.getStudents();
+                competitiveStudentId;
     }
+
+
     public void saveCoach(List<Coach> coaches) throws IOException {
         Path file = folder.resolve("coaches.csv");   // csvFiles/coaches.csv
         Files.createDirectories(folder);
